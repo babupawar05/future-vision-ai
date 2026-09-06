@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Future Vision AI | Autonomous Predictive Intelligence</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fira+Code:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Client-side PDF Generation Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #020408;
+      --bg-panel: rgba(8, 13, 26, 0.85);
+      --border-glow: rgba(245, 158, 11, 0.32);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --gold-main: #f59e0b;
+      --gold-bright: #fbbf24;
+      --gold-light: #fef3c7;
+      --gold-grad: linear-gradient(135deg, #fbbf24 0%, #d97706 60%, #78350f 100%);
+      --cyan-radar: #38bdf8;
+      --emerald-accent: #34d399;
+      --rose-accent: #fb7185;
+      --purple-accent: #c084fc;
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      padding: 20px 14px calc(60px + env(safe-area-inset-bottom));
+      display: flex;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .ambience-1 {
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(340px, 90vw, 1000px);
+      height: clamp(300px, 50vh, 550px);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatAmbience 12s ease-in-out infinite alternate;
+    }
+
+    .ambience-2 {
+      position: fixed;
+      bottom: -150px;
+      right: -100px;
+      width: clamp(280px, 70vw, 650px);
+      height: clamp(280px, 70vw, 650px);
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.09) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatAmbience2 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatAmbience {
+      0% { transform: translateX(-50%) scale(1) translateY(0); }
+      100% { transform: translateX(-48%) scale(1.1) translateY(30px); }
+    }
+
+    @keyframes floatAmbience2 {
+      0% { transform: scale(1) translateY(0); }
+      100% { transform: scale(1.15) translateY(-40px); }
+    }
+
+    .terminal-container {
+      max-width: 980px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .top-utility-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4px;
+      gap: 10px;
+    }
+
+    .system-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      color: var(--emerald-accent);
+      letter-spacing: 0.5px;
+    }
+
+    .status-pulse-led {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald-accent);
+      box-shadow: 0 0 10px var(--emerald-accent);
+      animation: ledBlink 2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+
+    @keyframes ledBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .util-actions-cluster {
+      display: flex;
+      gap: 8px;
+    }
+
+    .sound-toggle-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      padding: 6px 12px;
+      border-radius: 99px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    header { text-align: center; padding: 6px 0; }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid var(--border-glow);
+      border-radius: 9999px;
+      font-family: 'Fira Code', monospace;
+      font-size: clamp(0.66rem, 2vw, 0.74rem);
+      font-weight: 600;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.12);
+    }
+
+    .kicker-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold-bright);
+      box-shadow: 0 0 10px var(--gold-bright);
+    }
+
+    h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.85rem, 6.5vw, 3.3rem);
+      font-weight: 800;
+      background: linear-gradient(180deg, #ffffff 40%, var(--gold-light) 75%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .tagline {
+      color: var(--text-dim);
+      font-size: clamp(0.88rem, 2.6vw, 1rem);
+      margin-top: 8px;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: 0 8px;
+    }
+
+    .glass-deck {
+      background: var(--bg-panel);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-glow);
+      border-radius: clamp(18px, 4vw, 24px);
+      padding: clamp(18px, 4vw, 32px);
+      box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-deck::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.8), transparent);
+    }
+
+    .input-mode-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      max-width: 220px;
+      min-height: 44px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: rgba(245, 158, 11, 0.16);
+      border-color: var(--gold-main);
+      color: var(--gold-bright);
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.25);
+    }
+
+    .scanner-bay {
+      border: 2px dashed rgba(245, 158, 11, 0.35);
+      background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.6) 0%, rgba(6, 10, 22, 0.9) 100%);
+      border-radius: 18px;
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(240px, 40vh, 290px);
+      transition: all 0.25s;
+    }
+
+    .scanner-bay input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+    }
+
+    .palm-mesh-silhouette {
+      width: 76px;
+      height: 86px;
+      margin-bottom: 14px;
+      color: var(--gold-main);
+      opacity: 0.85;
+    }
+
+    .bay-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(0.98rem, 3.2vw, 1.12rem);
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 6px;
+    }
+
+    .bay-hint {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      padding: 0 10px;
+      line-height: 1.4;
+    }
+
+    /* Palm Viewport with Layered Canvas */
+    .viewport-box {
+      display: none;
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid var(--gold-bright);
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.25);
+    }
+
+    .viewport-box img, .viewport-box video {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: clamp(260px, 48vh, 380px);
+    }
+
+    /* Holographic Canvas Overlay */
+    #overlayCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .ret {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: var(--gold-bright);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .ret-tl { top: 8px; left: 8px; border-width: 3px 0 0 3px; }
+    .ret-tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
+    .ret-bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
+    .ret-br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
+
+    .laser-scan {
+      display: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 3px;
+      background: #fff;
+      box-shadow: 0 0 20px 4px var(--gold-bright), 0 0 8px #fff;
+      animation: laserSweep 2s ease-in-out infinite alternate;
+      z-index: 6;
+    }
+
+    @keyframes laserSweep {
+      0% { top: 2%; opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { top: 96%; opacity: 0.7; }
+    }
+
+    .terminal-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      min-height: 48px;
+      background: #080d1a;
+      border: 1px solid var(--border-subtle);
+      color: #ffffff;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    select:focus, input[type="text"]:focus {
+      border-color: var(--gold-main);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-astral-launch {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 22px;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: var(--gold-grad);
+      color: #04060b;
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 10px 30px -8px rgba(245, 158, 11, 0.5);
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-astral-launch:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+    }
+
+    .telemetry-tray {
+      display: none;
+      background: rgba(8, 13, 27, 0.94);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 14px 18px;
+      border-radius: 14px;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: var(--cyan-radar);
+    }
+
+    .radar-orbit {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cyan-radar);
+      box-shadow: 0 0 14px var(--cyan-radar);
+      animation: orbit 1.5s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes orbit {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.7); }
+    }
+
+    .reading-suite {
+      display: none;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* 5-Indicator Dynamic Deck */
+    .biometric-indicators-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .biometric-indicators-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .indicator-card:last-child {
+        grid-column: span 2;
+      }
+    }
+
+    .indicator-card {
+      background: rgba(8, 12, 24, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .indicator-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .indicator-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.66rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .indicator-score {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .indicator-track {
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .indicator-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fill-vitality { background: linear-gradient(90deg, #10b981, #34d399); }
+    .fill-career { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .fill-love { background: linear-gradient(90deg, #f43f5e, #fb7185); }
+    .fill-intellect { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+    .fill-wealth { background: linear-gradient(90deg, #9333ea, #c084fc); }
+
+    .indicator-status-badge {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+    }
+
+    .sector-tabs-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .sector-tabs-bar::-webkit-scrollbar { display: none; }
+
+    .tab-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .tab-pill.active {
+      background: rgba(245, 158, 11, 0.16);
+      border-color: var(--gold-main);
+      color: var(--gold-bright);
+    }
+
+    .suite-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .suite-nav h2 {
+      font-family: 'Sora', sans-serif;
+      color: #fff;
+      font-size: clamp(1.15rem, 3.8vw, 1.35rem);
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .btn-util {
+      min-height: 40px;
+      padding: 6px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #f1f5f9;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-insight {
+      background: rgba(9, 14, 28, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: clamp(18px, 4vw, 24px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-insight::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--gold-grad);
+    }
+
+    .card-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(0.98rem, 3.2vw, 1.12rem);
+      font-weight: 700;
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .card-badge {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--gold-light);
+      flex-shrink: 0;
+    }
+
+    .card-body {
+      font-size: 0.94rem;
+      color: #cbd5e1;
+      line-height: 1.75;
+    }
+
+    .card-body strong {
+      color: #fff;
+      font-weight: 600;
+      background: rgba(245, 158, 11, 0.08);
+      padding: 1px 5px;
+      border-radius: 4px;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .card-body p { margin-bottom: 10px; }
+    .card-body p:last-child { margin-bottom: 0; }
+
+    /* Follow-up Suite */
+    .chips-deck {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .chip-item {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--text-dim);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .thread-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 440px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+      padding-right: 4px;
+    }
+
+    .user-inquiry-ribbon {
+      align-self: flex-end;
+      max-width: 90%;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(217, 119, 6, 0.1) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      border-radius: 14px 14px 2px 14px;
+      padding: 12px 14px;
+      color: #fff;
+    }
+
+    .user-inquiry-header {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      color: var(--gold-bright);
+      margin-bottom: 4px;
+    }
+
+    .user-inquiry-text {
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .dossier-card {
+      align-self: flex-start;
+      width: 100%;
+      background: rgba(7, 11, 23, 0.94);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 16px;
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .dossier-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 8px;
+    }
+
+    .dossier-badge {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      color: var(--cyan-radar);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dossier-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .dossier-cell {
+      background: rgba(14, 20, 38, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .dossier-cell-headline {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dossier-cell-content {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      line-height: 1.65;
+    }
+
+    .chat-input-bar {
+      display: flex;
+      gap: 8px;
+    }
+
+    @media (max-width: 420px) {
+      .chat-input-bar { flex-direction: column; }
+      .chat-input-bar button { width: 100%; min-height: 48px; }
+    }
+
+    /* Print / PDF Styling */
+    @media print {
+      body { background: #fff !important; color: #000 !important; padding: 0; }
+      .ambience-1, .ambience-2, .glass-deck:first-of-type, .kicker, .btn-astral-launch, .suite-nav .btn-util, #chatSuite, .top-utility-bar {
+        display: none !important;
+      }
+      .card-insight, .dossier-card {
+        border: 1px solid #ccc;
+        border-left: 4px solid #000;
+        background: #fff !important;
+        color: #000 !important;
+        break-inside: avoid;
+        margin-bottom: 20px;
+        box-shadow: none;
+      }
+      .card-title, .card-body, .dossier-cell-headline, .dossier-cell-content { color: #000 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambience-1"></div>
+  <div class="ambience-2"></div>
+
+  <div class="terminal-container">
+    <div class="top-utility-bar">
+      <div class="system-status-indicator">
+        <div class="status-pulse-led"></div>
+        <span>ENGINE ONLINE</span>
+      </div>
+      <div class="util-actions-cluster">
+        <button class="sound-toggle-btn" id="voiceToggleBtn" onclick="toggleVoiceNarration()">
+          <span>🎙️</span>
+          <span id="voiceLabel">VOICE READ</span>
+        </button>
+        <button class="sound-toggle-btn" id="soundToggleBtn" onclick="toggleSound()">
+          <span id="soundIcon">🔊</span>
+          <span id="soundLabel">AUDIO</span>
+        </button>
+      </div>
+    </div>
+
+    <header>
+      <div class="kicker">
+        <div class="kicker-dot"></div>
+        AUTONOMOUS DESTINY ENGINE • SYS.2026
+      </div>
+      <h1>FUTURE VISION AI</h1>
+      <p class="tagline">Next-generation predictive intelligence decoding timeline trajectories, career horizons, and life vectors.</p>
+    </header>
+
+    <div class="glass-deck">
+      <div class="input-mode-bar">
+        <button class="mode-btn active" id="btnModeFile" onclick="setMode('file')">Upload Photo</button>
+        <button class="mode-btn" id="btnModeCam" onclick="setMode('cam')">Camera Feed</button>
+      </div>
+
+      <div class="scanner-bay" id="scannerDropArea">
+        <input type="file" id="palmFileInput" accept="image/*">
+        
+        <div id="standbyGuide">
+          <svg class="palm-mesh-silhouette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M18 11V6a2 2 0 0 0-4 0v5"/>
+            <path d="M14 10V4a2 2 0 0 0-4 0v6"/>
+            <path d="M10 10.5V6a2 2 0 0 0-4 0v8"/>
+            <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+          </svg>
+          <div class="bay-title">Select or Snap Palm Image</div>
+          <div class="bay-hint">Open hand, flat fingers, clear daylight (JPEG / PNG / WebP)</div>
+        </div>
+
+        <div class="viewport-box" id="fileViewport">
+          <div class="ret ret-tl"></div>
+          <div class="ret ret-tr"></div>
+          <div class="ret ret-bl"></div>
+          <div class="ret ret-br"></div>
+          <img id="imagePreview" alt="Palm Preview">
+          <canvas id="overlayCanvas"></canvas>
+          <div class="laser-scan" id="laserLine"></div>
+        </div>
+
+        <div class="viewport-box" id="camViewport" style="display: none;">
+          <div class="ret ret-tl"></div>
+          <div class="ret ret-tr"></div>
+          <div class="ret ret-bl"></div>
+          <div class="ret ret-br"></div>
+          <video id="liveVideo" autoplay playsinline muted></video>
+          <button type="button" class="btn-util" id="snapBtn" onclick="snapPhoto()" style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 20; background: var(--gold-grad); color: #000; font-weight: 800; border: none;">
+            Snap Photo
+          </button>
+        </div>
+      </div>
+
+      <div class="terminal-row">
+        <div>
+          <label for="consultLanguage">Consultation Language</label>
+          <select id="consultLanguage">
+            <option value="English" selected>English</option>
+            <option value="Hindi">Hindi (हिन्दी)</option>
+            <option value="Marathi">Marathi (मराठी)</option>
+            <option value="Gujarati">Gujarati (ગુજરાતી)</option>
+            <option value="Telugu">Telugu (తెలుగు)</option>
+            <option value="Tamil">Tamil (தமிழ்)</option>
+            <option value="Bengali">Bengali (বাংলা)</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-astral-launch" id="runAnalysisBtn" onclick="launchAnalysis()">
+        <span>✦ Initiate Palm Reading</span>
+      </button>
+    </div>
+
+    <div class="telemetry-tray" id="telemetryTray">
+      <div class="radar-orbit"></div>
+      <span id="telemetryMessage">Aligning biometric vectors and inspecting mounts...</span>
+    </div>
+
+    <!-- Results Section -->
+    <div class="reading-suite" id="readingSuite">
+      
+      <!-- 5-Indicator Dynamic Deck -->
+      <div class="biometric-indicators-grid">
+        <div class="indicator-card">
+          <div class="indicator-header">
+            <span class="indicator-label">🌿 VITALITY</span>
+            <span class="indicator-score" id="scoreVitality">--</span>
+          </div>
+          <div class="indicator-track">
+            <div class="indicator-fill fill-vitality" id="fillVitality"></div>
+          </div>
+          <div class="indicator-status-badge" id="statusVitality">Analyzing...</div>
+        </div>
+
+        <div class="indicator-card">
+          <div class="indicator-header">
+            <span class="indicator-label">⚡ CAREER</span>
+            <span class="indicator-score" id="scoreCareer">--</span>
+          </div>
+          <div class="indicator-track">
+            <div class="indicator-fill fill-career" id="fillCareer"></div>
+          </div>
+          <div class="indicator-status-badge" id="statusCareer">Analyzing...</div>
+        </div>
+
+        <div class="indicator-card">
+          <div class="indicator-header">
+            <span class="indicator-label">💫 LOVE</span>
+            <span class="indicator-score" id="scoreLove">--</span>
+          </div>
+          <div class="indicator-track">
+            <div class="indicator-fill fill-love" id="fillLove"></div>
+          </div>
+          <div class="indicator-status-badge" id="statusLove">Analyzing...</div>
+        </div>
+
+        <div class="indicator-card">
+          <div class="indicator-header">
+            <span class="indicator-label">🧠 MIND</span>
+            <span class="indicator-score" id="scoreIntellect">--</span>
+          </div>
+          <div class="indicator-track">
+            <div class="indicator-fill fill-intellect" id="fillIntellect"></div>
+          </div>
+          <div class="indicator-status-badge" id="statusIntellect">Analyzing...</div>
+        </div>
+
+        <div class="indicator-card">
+          <div class="indicator-header">
+            <span class="indicator-label">🏛️ WEALTH</span>
+            <span class="indicator-score" id="scoreWealth">--</span>
+          </div>
+          <div class="indicator-track">
+            <div class="indicator-fill fill-wealth" id="fillWealth"></div>
+          </div>
+          <div class="indicator-status-badge" id="statusWealth">Analyzing...</div>
+        </div>
+      </div>
+
+      <div class="glass-deck" id="exportableReportArea">
+        <div class="suite-nav">
+          <h2>Predictive Report</h2>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button class="btn-util" onclick="generateSocialCard()">
+              <span>📸</span>
+              <span>Aura Card</span>
+            </button>
+            <button class="btn-util" onclick="exportStyledPDF()">
+              <span>📄</span>
+              <span>Save PDF</span>
+            </button>
+            <button class="btn-util" onclick="copyConsultation()">
+              <span>📋</span>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sector-tabs-bar" style="margin-top: 16px;">
+          <button class="tab-pill active" onclick="filterSectors('all', this)">All</button>
+          <button class="tab-pill" onclick="filterSectors('vitality', this)">Vitality</button>
+          <button class="tab-pill" onclick="filterSectors('career', this)">Career</button>
+          <button class="tab-pill" onclick="filterSectors('mind', this)">Mind & Heart</button>
+          <button class="tab-pill" onclick="filterSectors('wealth', this)">Wealth</button>
+        </div>
+
+        <div id="insightDeck" style="display: flex; flex-direction: column; gap: 16px;"></div>
+      </div>
+
+      <div class="glass-deck" id="chatSuite">
+        <div class="suite-nav" style="border: none; padding-bottom: 0;">
+          <div>
+            <h3 style="color: var(--gold-bright); font-family: 'Sora', sans-serif; font-size: 1.25rem; font-weight: 700;">
+              Follow-up Consultation
+            </h3>
+            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 4px;">
+              Ask targeted questions about your career, wealth peaks, or health:
+            </p>
+          </div>
+        </div>
+
+        <div class="chips-deck" style="margin-top: 14px;">
+          <button class="chip-item" onclick="fillQuestion('What does my fate line reveal about career promotion and financial stability?')">💼 Career</button>
+          <button class="chip-item" onclick="fillQuestion('When is my financial wealth condition projected to experience its strongest surge?')">💰 Wealth Peak</button>
+          <button class="chip-item" onclick="fillQuestion('What are the key vitality and wellness indicators shown on my palm lines?')">🌿 Vitality</button>
+          <button class="chip-item" onclick="fillQuestion('What does my heart line indicate regarding emotional fulfillment and marriage?')">💫 Relationships</button>
+        </div>
+
+        <div id="dialogueStream" class="thread-stream"></div>
+
+        <div class="chat-input-bar">
+          <input type="text" id="inquiryField" placeholder="Ask a targeted follow-up question..." 
+                 onkeypress="if(event.key === 'Enter') submitQuestion()">
+          <button id="sendBtn" onclick="submitQuestion()" class="btn-util" style="background: var(--gold-grad); color: #04060b; font-weight: 700; border: none; padding: 0 24px; min-height: 48px; justify-content: center;">
+            Consult
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+
+    /* Web Audio Synthesizer */
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function playTone(freq, type = 'sine', duration = 0.08, gainVal = 0.05) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundIcon').innerText = soundEnabled ? '🔊' : '🔇';
+      document.getElementById('soundLabel').innerText = soundEnabled ? 'AUDIO' : 'MUTED';
+      if (soundEnabled) playTone(880, 'triangle', 0.06);
+    }
+
+    /* Text-To-Speech Narration Engine */
+    let voiceActive = false;
+    function toggleVoiceNarration() {
+      if ('speechSynthesis' in window) {
+        if (window.speechSynthesis.speaking) {
+          window.speechSynthesis.cancel();
+          voiceActive = false;
+          document.getElementById('voiceLabel').innerText = "VOICE READ";
+          return;
+        }
+
+        if (!activeReport) {
+          alert("Initiate a palm reading first to activate voice synthesis.");
+          return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(activeReport.replace(/###/g, '').replace(/\*\*/g, ''));
+        utterance.rate = 0.95;
+        utterance.pitch = 0.95;
+        
+        utterance.onend = () => {
+          voiceActive = false;
+          document.getElementById('voiceLabel').innerText = "VOICE READ";
+        };
+
+        window.speechSynthesis.speak(utterance);
+        voiceActive = true;
+        document.getElementById('voiceLabel').innerText = "STOP READ";
+      } else {
+        alert("Speech synthesis is unsupported on this browser.");
+      }
+    }
+
+    const palmFileInput = document.getElementById('palmFileInput');
+    const scannerDropArea = document.getElementById('scannerDropArea');
+    const standbyGuide = document.getElementById('standbyGuide');
+    const fileViewport = document.getElementById('fileViewport');
+    const camViewport = document.getElementById('camViewport');
+    const imagePreview = document.getElementById('imagePreview');
+    const liveVideo = document.getElementById('liveVideo');
+    const laserLine = document.getElementById('laserLine');
+    const runAnalysisBtn = document.getElementById('runAnalysisBtn');
+    const telemetryTray = document.getElementById('telemetryTray');
+    const telemetryMessage = document.getElementById('telemetryMessage');
+    const readingSuite = document.getElementById('readingSuite');
+    const insightDeck = document.getElementById('insightDeck');
+    const overlayCanvas = document.getElementById('overlayCanvas');
+
+    let activeReport = "";
+    let activeSession = null;
+    let activeTelemetry = null;
+    let cameraStream = null;
+    let snappedBlob = null;
+    let renderedCardElements = [];
+
+    function setMode(mode) {
+      playTone(520, 'sine', 0.04);
+      document.getElementById('btnModeFile').classList.toggle('active', mode === 'file');
+      document.getElementById('btnModeCam').classList.toggle('active', mode === 'cam');
+
+      if (mode === 'cam') {
+        startCamera();
+      } else {
+        stopCamera();
+        camViewport.style.display = 'none';
+        if (imagePreview.src && imagePreview.src !== window.location.href) {
+          fileViewport.style.display = 'block';
+          standbyGuide.style.display = 'none';
+        } else {
+          standbyGuide.style.display = 'block';
+          fileViewport.style.display = 'none';
+        }
+      }
+    }
+
+    async function startCamera() {
+      standbyGuide.style.display = 'none';
+      fileViewport.style.display = 'none';
+      camViewport.style.display = 'block';
+
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 } },
+          audio: false
+        });
+        liveVideo.srcObject = cameraStream;
+      } catch (err) {
+        alert("Camera unavailable: " + err.message);
+        setMode('file');
+      }
+    }
+
+    function stopCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+    }
+
+    function snapPhoto() {
+      playTone(1050, 'triangle', 0.1);
+      const canvas = document.createElement('canvas');
+      canvas.width = liveVideo.videoWidth || 640;
+      canvas.height = liveVideo.videoHeight || 480;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(liveVideo, 0, 0);
+
+      canvas.toBlob(blob => {
+        snappedBlob = blob;
+        imagePreview.src = URL.createObjectURL(blob);
+        stopCamera();
+        camViewport.style.display = 'none';
+        fileViewport.style.display = 'block';
+        clearCanvas();
+      }, 'image/jpeg', 0.92);
+    }
+
+    palmFileInput.addEventListener('change', () => {
+      const file = palmFileInput.files[0];
+      if (file) {
+        playTone(600, 'sine', 0.05);
+        snappedBlob = null;
+        imagePreview.src = URL.createObjectURL(file);
+        standbyGuide.style.display = 'none';
+        camViewport.style.display = 'none';
+        fileViewport.style.display = 'block';
+        clearCanvas();
+      }
+    });
+
+    function clearCanvas() {
+      const ctx = overlayCanvas.getContext('2d');
+      ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+    }
+
+    /* Interactive Palm Line Tracing Overlay */
+    function drawVedicBioVectors() {
+      overlayCanvas.width = fileViewport.clientWidth;
+      overlayCanvas.height = fileViewport.clientHeight;
+      const ctx = overlayCanvas.getContext('2d');
+      const w = overlayCanvas.width;
+      const h = overlayCanvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+
+      // 1. Heart Line (Hriday Rekha) - Cyan Radiant
+      ctx.strokeStyle = '#38bdf8';
+      ctx.shadowColor = '#38bdf8';
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      ctx.moveTo(w * 0.18, h * 0.38);
+      ctx.bezierCurveTo(w * 0.40, h * 0.35, w * 0.65, h * 0.32, w * 0.78, h * 0.28);
+      ctx.stroke();
+
+      // 2. Head Line (Mastishk Rekha) - Emerald Vibrant
+      ctx.strokeStyle = '#34d399';
+      ctx.shadowColor = '#34d399';
+      ctx.beginPath();
+      ctx.moveTo(w * 0.22, h * 0.46);
+      ctx.bezierCurveTo(w * 0.45, h * 0.48, w * 0.68, h * 0.54, w * 0.82, h * 0.62);
+      ctx.stroke();
+
+      // 3. Life Line (Jeevan Rekha) - Amber Radiant
+      ctx.strokeStyle = '#fbbf24';
+      ctx.shadowColor = '#fbbf24';
+      ctx.beginPath();
+      ctx.moveTo(w * 0.22, h * 0.46);
+      ctx.bezierCurveTo(w * 0.32, h * 0.60, w * 0.40, h * 0.78, w * 0.48, h * 0.88);
+      ctx.stroke();
+
+      // 4. Fate Line (Bhagya Rekha) - Amethyst Purple
+      ctx.strokeStyle = '#c084fc';
+      ctx.shadowColor = '#c084fc';
+      ctx.beginPath();
+      ctx.moveTo(w * 0.52, h * 0.85);
+      ctx.lineTo(w * 0.51, h * 0.38);
+      ctx.stroke();
+
+      // 5. Jupiter & Venus Planetary Mount Target Rings
+      ctx.strokeStyle = 'rgba(253, 224, 71, 0.6)';
+      ctx.beginPath();
+      ctx.arc(w * 0.34, h * 0.28, 14, 0, Math.PI * 2); // Jupiter Mount
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
+      ctx.beginPath();
+      ctx.arc(w * 0.30, h * 0.68, 20, 0, Math.PI * 2); // Venus Mount
+      ctx.stroke();
+    }
+
+    function fillQuestion(text) {
+      playTone(700, 'triangle', 0.04);
+      const field = document.getElementById('inquiryField');
+      field.value = text;
+      field.focus();
+    }
+
+    async function launchAnalysis() {
+      const file = snappedBlob || palmFileInput.files[0];
+      if (!file) {
+        alert("Select or snap a palm photo first.");
+        return;
+      }
+
+      playTone(440, 'triangle', 0.15);
+      runAnalysisBtn.disabled = true;
+      laserLine.style.display = 'block';
+      telemetryTray.style.display = 'flex';
+      readingSuite.style.display = 'none';
+      insightDeck.innerHTML = '';
+      document.getElementById('dialogueStream').innerHTML = '';
+      activeSession = null;
+      clearCanvas();
+
+      const telemetrySteps = [
+        "Calibrating optical hand plane...",
+        "Tracing Heart Line trajectory...",
+        "Analyzing Head Line depth...",
+        "Measuring Life Line vitality...",
+        "Evaluating Mount elevations...",
+        "Synthesizing destiny matrix..."
+      ];
+
+      let stepIdx = 0;
+      telemetryMessage.innerText = telemetrySteps[0];
+      const ticker = setInterval(() => {
+        stepIdx = (stepIdx + 1) % telemetrySteps.length;
+        telemetryMessage.innerText = telemetrySteps[stepIdx];
+        playTone(320 + (stepIdx * 40), 'sine', 0.04, 0.03);
+      }, 1400);
+
+      const formData = new FormData();
+      formData.append('file', file, 'palm.jpg');
+      formData.append('language', document.getElementById('consultLanguage').value);
+
+      try {
+        const res = await fetch('/api/analyze-palm', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+        clearInterval(ticker);
+
+        if (res.ok && data.status === 'success') {
+          playTone(880, 'sine', 0.2);
+          const rawText = data.report ?? data.result ?? data.text ?? "";
+          activeReport = typeof rawText === "string" ? rawText : JSON.stringify(rawText);
+          activeSession = data.session_id || null;
+          activeTelemetry = data.telemetry || null;
+
+          drawVedicBioVectors();
+          updateBiometricIndicators(data.telemetry);
+          renderInsightCards(activeReport);
+          
+          readingSuite.style.display = 'flex';
+          telemetryTray.style.display = 'none';
+          readingSuite.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          telemetryTray.style.borderColor = "rgba(239, 68, 68, 0.4)";
+          telemetryMessage.innerText = "Error: " + (data.detail || "Consultation interrupted.");
+        }
+      } catch (err) {
+        clearInterval(ticker);
+        telemetryTray.style.borderColor = "rgba(239, 68, 68, 0.4)";
+        telemetryMessage.innerText = "Network Error: " + err.message;
+      } finally {
+        runAnalysisBtn.disabled = false;
+        laserLine.style.display = 'none';
+      }
+    }
+
+    function updateBiometricIndicators(tel) {
+      if (!tel) return;
+      const keys = ['vitality', 'career', 'love', 'intellect', 'wealth'];
+      keys.forEach(k => {
+        if (tel[k]) {
+          const cap = k.charAt(0).toUpperCase() + k.slice(1);
+          const scoreEl = document.getElementById(`score${cap}`);
+          const fillEl = document.getElementById(`fill${cap}`);
+          const statusEl = document.getElementById(`status${cap}`);
+          const score = tel[k].score || 80;
+          const status = tel[k].status || "Active";
+
+          if (scoreEl) scoreEl.innerText = score + '%';
+          if (fillEl) fillEl.style.width = score + '%';
+          if (statusEl) statusEl.innerText = status;
+        }
+      });
+    }
+
+    function getSectionCategory(title) {
+      const lower = title.toLowerCase();
+      if (lower.includes('life') || lower.includes('health') || lower.includes('vitality') || lower.includes('जीव')) return 'vitality';
+      if (lower.includes('fate') || lower.includes('career') || lower.includes('profession') || lower.includes('भाग्य')) return 'career';
+      if (lower.includes('head') || lower.includes('heart') || lower.includes('intellect') || lower.includes('relationship')) return 'mind';
+      if (lower.includes('mount') || lower.includes('wealth') || lower.includes('guidance') || lower.includes('पर्वत') || lower.includes('धन')) return 'wealth';
+      return 'general';
+    }
+
+    function getSectionIcon(title) {
+      const lower = title.toLowerCase();
+      if (lower.includes('archetype') || lower.includes('स्वरूप')) return '🖐️';
+      if (lower.includes('life') || lower.includes('जीव')) return '🌿';
+      if (lower.includes('head') || lower.includes('मस्तिष्क') || lower.includes('intellect')) return '🧠';
+      if (lower.includes('heart') || lower.includes('हृदय') || lower.includes('relationship')) return '💫';
+      if (lower.includes('fate') || lower.includes('भाग्य') || lower.includes('career')) return '⚡';
+      if (lower.includes('mount') || lower.includes('पर्वत')) return '🪐';
+      if (lower.includes('wealth') || lower.includes('धन') || lower.includes('guidance')) return '🏛️';
+      return '✦';
+    }
+
+    function renderInsightCards(text) {
+      insightDeck.innerHTML = "";
+      renderedCardElements = [];
+      const sections = String(text || "").split(/###\s+/);
+
+      sections.forEach((sec, idx) => {
+        const trimmed = sec.trim();
+        if (!trimmed) return;
+
+        const breakIdx = trimmed.indexOf('\n');
+        let title = breakIdx !== -1 ? trimmed.slice(0, breakIdx).trim() : (idx === 0 ? "Executive Summary" : "Vector Insights");
+        let body = breakIdx !== -1 ? trimmed.slice(breakIdx).trim() : trimmed;
+
+        const formattedBody = body
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .split('\n\n')
+          .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
+          .join('');
+
+        const el = document.createElement('div');
+        el.className = 'card-insight';
+        el.dataset.category = getSectionCategory(title);
+        el.innerHTML = `
+          <div class="card-header-bar">
+            <div class="card-title">
+              <span>${getSectionIcon(title)}</span>
+              <span>${title}</span>
+            </div>
+            <div class="card-badge">SECTOR 0${idx + 1}</div>
+          </div>
+          <div class="card-body">${formattedBody}</div>
+        `;
+        insightDeck.appendChild(el);
+        renderedCardElements.push(el);
+      });
+    }
+
+    function filterSectors(category, btnElement) {
+      playTone(600, 'sine', 0.04);
+      document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      renderedCardElements.forEach(card => {
+        if (category === 'all' || card.dataset.category === category || card.dataset.category === 'general') {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function copyConsultation() {
+      if (!activeReport) return;
+      playTone(750, 'triangle', 0.08);
+      navigator.clipboard.writeText(activeReport).then(() => {
+        alert("Consultation report copied to clipboard!");
+      });
+    }
+
+    /* Branded PDF Patrika Generator */
+    function exportStyledPDF() {
+      const element = document.getElementById('exportableReportArea');
+      playTone(850, 'sine', 0.1);
+
+      const opt = {
+        margin: 10,
+        filename: `FutureVision_AI_Patrika_${Date.now()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#05070e' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+
+    /* Social Story Graphic (Instagram/WhatsApp Aura Card) */
+    function generateSocialCard() {
+      if (!activeTelemetry) {
+        alert("Please run an analysis first.");
+        return;
+      }
+
+      playTone(950, 'triangle', 0.12);
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1920;
+      const ctx = canvas.getContext('2d');
+
+      // Background
+      const bg = ctx.createLinearGradient(0, 0, 1080, 1920);
+      bg.addColorStop(0, '#04060c');
+      bg.addColorStop(0.5, '#0b1329');
+      bg.addColorStop(1, '#020408');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, 1080, 1920);
+
+      // Gold Ornamental Frame
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(60, 60, 960, 1800);
+
+      // Header Brand
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#fde047';
+      ctx.font = 'bold 36px monospace';
+      ctx.fillText('✦ FUTURE VISION AI // AURA MATRIX ✦', 540, 240);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 82px sans-serif';
+      ctx.fillText('DESTINY BLUEPRINT', 540, 340);
+
+      // Draw 5 Metric Tiles
+      const metrics = [
+        { label: 'VITALITY MATRIX', score: activeTelemetry.vitality.score + '%', status: activeTelemetry.vitality.status, color: '#34d399' },
+        { label: 'CAREER TRAJECTORY', score: activeTelemetry.career.score + '%', status: activeTelemetry.career.status, color: '#fbbf24' },
+        { label: 'LOVE & HARMONY', score: activeTelemetry.love.score + '%', status: activeTelemetry.love.status, color: '#fb7185' },
+        { label: 'INTELLECT / MIND', score: activeTelemetry.intellect.score + '%', status: activeTelemetry.intellect.status, color: '#38bdf8' },
+        { label: 'WEALTH HORIZON', score: activeTelemetry.wealth.score + '%', status: activeTelemetry.wealth.status, color: '#c084fc' }
+      ];
+
+      let startY = 480;
+      metrics.forEach(m => {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+        ctx.fillRect(120, startY, 840, 170);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.2)';
+        ctx.strokeRect(120, startY, 840, 170);
+
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '28px monospace';
+        ctx.fillText(m.label, 160, startY + 60);
+
+        ctx.fillStyle = m.color;
+        ctx.font = 'bold 34px sans-serif';
+        ctx.fillText(m.status, 160, startY + 120);
+
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 64px sans-serif';
+        ctx.fillText(m.score, 920, startY + 110);
+
+        startY += 210;
+      });
+
+      // Footer Seal
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#fde047';
+      ctx.font = '32px monospace';
+      ctx.fillText('POWERED BY GEMINI AUTONOMOUS DESTINY ENGINE', 540, 1720);
+
+      // Trigger Instant Download
+      const link = document.createElement('a');
+      link.download = `Aura_Story_Card_${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function renderDossierCard(rawAnswer) {
+      const card = document.createElement('div');
+      card.className = 'dossier-card';
+
+      const header = document.createElement('div');
+      header.className = 'dossier-header-bar';
+      header.innerHTML = `
+        <div class="dossier-badge">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--cyan-radar);"></span>
+          PREDICTIVE CONSULTATION DOSSIER
+        </div>
+        <button class="btn-util" style="padding:4px 10px; font-size:0.75rem;" onclick="navigator.clipboard.writeText(decodeURIComponent(this.dataset.text)); alert('Verdict copied!');" data-text="${encodeURIComponent(rawAnswer)}">
+          Copy
+        </button>
+      `;
+      card.appendChild(header);
+
+      const grid = document.createElement('div');
+      grid.className = 'dossier-grid';
+
+      const sections = rawAnswer.split(/###\s+/);
+      let parsedAny = false;
+
+      sections.forEach(sec => {
+        const trimmed = sec.trim();
+        if (!trimmed) return;
+
+        const breakIdx = trimmed.indexOf('\n');
+        let title = breakIdx !== -1 ? trimmed.slice(0, breakIdx).replace(/\[|\]/g, '').trim() : "VERDICT DETAILS";
+        let body = breakIdx !== -1 ? trimmed.slice(breakIdx).trim() : trimmed;
+
+        parsedAny = true;
+        const formatted = body
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n/g, '<br>');
+
+        const cell = document.createElement('div');
+        cell.className = 'dossier-cell';
+
+        let icon = '✦';
+        if (title.includes('VERDICT')) icon = '🎯';
+        if (title.includes('EVIDENCE')) icon = '🔍';
+        if (title.includes('TIMELINE') || title.includes('HORIZON')) icon = '⏳';
+        if (title.includes('GUIDANCE') || title.includes('REMEDY')) icon = '🛡️';
+
+        cell.innerHTML = `
+          <div class="dossier-cell-headline">${icon} ${title}</div>
+          <div class="dossier-cell-content">${formatted}</div>
+        `;
+        grid.appendChild(cell);
+      });
+
+      if (!parsedAny) {
+        grid.innerHTML = `<div class="dossier-cell"><div class="dossier-cell-content">${rawAnswer}</div></div>`;
+      }
+
+      card.appendChild(grid);
+      return card;
+    }
+
+    async function submitQuestion() {
+      const input = document.getElementById('inquiryField');
+      const question = input.value.trim();
+      const stream = document.getElementById('dialogueStream');
+      const sendBtn = document.getElementById('sendBtn');
+
+      if (!question) return;
+      if (!activeSession) {
+        alert("Wait for the primary reading to complete.");
+        return;
+      }
+
+      playTone(600, 'triangle', 0.08);
+
+      const uRibbon = document.createElement('div');
+      uRibbon.className = 'user-inquiry-ribbon';
+      uRibbon.innerHTML = `
+        <div class="user-inquiry-header"><span>✦ INQUIRY VECTOR</span></div>
+        <div class="user-inquiry-text">${question}</div>
+      `;
+      stream.appendChild(uRibbon);
+      input.value = "";
+      sendBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/ask-question', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: activeSession,
+            question: question,
+            language: document.getElementById('consultLanguage').value
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          playTone(900, 'sine', 0.12);
+          const rawAnswer = typeof data.answer === "string" ? data.answer : JSON.stringify(data.answer);
+          const dossierCard = renderDossierCard(rawAnswer);
+          stream.appendChild(dossierCard);
+        } else {
+          const errDiv = document.createElement('div');
+          errDiv.className = 'dossier-card';
+          errDiv.style.borderColor = "rgba(239, 68, 68, 0.4)";
+          errDiv.innerHTML = `<div style="color: #f87171;">Error: ${data.detail || "Failed to retrieve verdict."}</div>`;
+          stream.appendChild(errDiv);
+        }
+      } catch (err) {
+        const errDiv = document.createElement('div');
+        errDiv.className = 'dossier-card';
+        errDiv.style.borderColor = "rgba(239, 68, 68, 0.4)";
+        errDiv.innerHTML = `<div style="color: #f87171;">Network Error: ${err.message}</div>`;
+        stream.appendChild(errDiv);
+      } finally {
+        sendBtn.disabled = false;
+        stream.scrollTop = stream.scrollHeight;
+      }
+    }
+  </script>
+</body>
+</html>
