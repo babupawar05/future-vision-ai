@@ -59,7 +59,7 @@ def analyze_palm_with_gemini(image_bytes: bytes, language: str, hand_type: str =
     delay = 2
     last_exception = None
 
-    # Retry loop using gemini-3.7-flash to bypass high-demand load spikes
+    # Retry loop using gemini-3.7-flash with exponential backoff for high-demand spikes
     for attempt in range(max_retries):
         try:
             response = client.models.generate_content(
@@ -95,7 +95,7 @@ def analyze_palm_with_gemini(image_bytes: bytes, language: str, hand_type: str =
             if "503" in str(e) or "UNAVAILABLE" in str(e):
                 if attempt < max_retries - 1:
                     time.sleep(delay)
-                    delay *= 2  # Exponential backoff
+                    delay *= 2
                     continue
             break
 
