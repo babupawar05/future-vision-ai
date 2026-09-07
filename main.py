@@ -55,8 +55,9 @@ def analyze_palm_with_gemini(image_bytes: bytes, language: str, hand_type: str =
         Include concrete percentages (0 to 100) for five key telemetry vectors: Vitality, Career, Love, Intellect, and Wealth.
         """
 
+        # Updated to gemini-3.6-flash
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.6-flash',
             contents=[
                 types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
                 prompt
@@ -127,7 +128,7 @@ async def ask_question(payload: QuestionRequest):
         Provide a targeted, structured follow-up verdict using '### [Section Name]' headers.
         """
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.6-flash',
             contents=[
                 types.Part.from_bytes(data=session["image_bytes"], mime_type="image/jpeg"),
                 prompt
