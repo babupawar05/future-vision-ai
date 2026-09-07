@@ -59,11 +59,11 @@ def analyze_palm_with_gemini(image_bytes: bytes, language: str, hand_type: str =
     delay = 2
     last_exception = None
 
-    # Retry loop to gracefully handle temporary 503 high-demand spikes
+    # Retry loop using gemini-3.7-flash to bypass high-demand load spikes
     for attempt in range(max_retries):
         try:
             response = client.models.generate_content(
-                model='gemini-3.6-flash',
+                model='gemini-3.7-flash',
                 contents=[
                     types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
                     prompt
@@ -142,7 +142,7 @@ async def ask_question(payload: QuestionRequest):
         Provide a targeted, structured follow-up verdict using '### [Section Name]' headers.
         """
         response = client.models.generate_content(
-            model='gemini-3.6-flash',
+            model='gemini-3.7-flash',
             contents=[
                 types.Part.from_bytes(data=session["image_bytes"], mime_type="image/jpeg"),
                 prompt
