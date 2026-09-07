@@ -307,22 +307,30 @@
     async function compressImage(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
+        reader.onerror = () => resolve(file); // Fallback to raw file if read fails
         reader.onload = (e) => {
           const img = new Image();
+          img.onerror = () => resolve(file); // Fallback to raw file if image decode fails
           img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 1000;
-            let width = img.width;
-            let height = img.height;
-            if (width > MAX_WIDTH) {
-              height *= MAX_WIDTH / width;
-              width = MAX_WIDTH;
+            try {
+              const canvas = document.createElement('canvas');
+              const MAX_WIDTH = 1000;
+              let width = img.width;
+              let height = img.height;
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, width, height);
+              canvas.toBlob((blob) => {
+                resolve(blob || file);
+              }, 'image/jpeg', 0.85);
+            } catch (err) {
+              resolve(file); // Fallback on canvas error
             }
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.85);
           };
           img.src = e.target.result;
         };
@@ -340,21 +348,22 @@
 
       runBtn.disabled = true;
       telemetryTray.style.display = 'flex';
-      telemetryMsg.innerText = "Compressing image for rapid telemetry sync...";
+      telemetryMsg.innerText = "Optimizing image and syncing telemetry...";
       document.getElementById('readingSuite').style.display = 'none';
 
       try {
-        const compressedBlob = await compressImage(rawFile);
+        const uploadBlob = await compressImage(rawFile);
         telemetryMsg.innerText = "Transmitting to Gemini predictive engine...";
 
         const formData = new FormData();
-        formData.append('file', compressedBlob, 'palm.jpg');
+        formData.append('file', uploadBlob, 'palm.jpg');
         formData.append('language', document.getElementById('consultLanguage').value);
         formData.append('hand_type', currentHandType);
         formData.append('lens', currentLens);
 
+        // Extended to 90 seconds timeout for large phone images
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 45000);
+        const timeoutId = setTimeout(() => controller.abort(), 90000);
 
         const res = await fetch('/api/analyze-palm', { 
           method: 'POST', 
@@ -376,7 +385,7 @@
         }
       } catch (err) {
         if (err.name === 'AbortError') {
-          telemetryMsg.innerText = "Error: Request timed out. Image was too large or connection slowed.";
+          telemetryMsg.innerText = "Error: Request timed out. The image file was too large or network speed was slow.";
         } else {
           telemetryMsg.innerText = "Network Error: " + err.message;
         }
